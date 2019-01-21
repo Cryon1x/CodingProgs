@@ -1,10 +1,32 @@
+/* Voombot API by Vikrant Sharma. 
+
+Dear maintainer,
+This program takes in user input for various vacuumbot-related (i.e. Roomba) parameters (e.g. location, roomsize, etc.)
+and determines if a movement instruction set is valid. It prints the final location of the vacuumbot. Program catches
+errors and ignores extra spaces as well as gibberish input after the intended input on the line (e.g. "1   3 N noise" is read
+as "1 3 N"). New features may be added as standalone functions, such as the inbuilt ones like "roomsize". 
+
+The output for each bot should be its final co-ordinates and heading. 
+INPUT AND OUTPUT 
+Test Input: 
+5 5 
+1 2 N 
+LMLMLMLMM 
+3 3 E 
+MMRMMRMRRM 
+Expected Output: 
+1 3 N 
+1 5 E 
+
+*/ 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
-#define VOOMBOTNUM 2
-#define MAXINPUT 1000
+#define VOOMBOTNUM 2 // number of voombots 
+#define MAXINPUT 1000 //longest line of user input
 
 typedef struct VOOMBOT {
 	 int x,y,DIRECTION;
@@ -12,29 +34,33 @@ typedef struct VOOMBOT {
     //char SERIAL_NUMBER;
     struct VOOMBOT * next;
 }  botinfo;
-typedef botinfo * botptr;
+typedef botinfo * botptr; // struct that stores all voombot info
 
 void roomsize( int *,  int *);  // gets roomsize
 void botlocator(botptr,  int,  int); // gets bot location
 void botparser(botptr, int, int); // parses and applies bot movement command
-void trav(botptr); //traverses and prints final bot location
+void trav(botptr); //traverses struct and prints final bot location
+
 
 int main(void) {
-	
-	botptr init = NULL, last = NULL;
-	int xMax, yMax, i = 1;
 
-	init = (botptr) malloc(sizeof(botinfo));
+	botptr init = NULL, last = NULL;
+	int xMax, yMax, i = 1; 
+
+	init = (botptr) malloc(sizeof(botinfo)); // initialize voombot struct
 	last = init;
 
-	roomsize(&xMax, &yMax); 
+	roomsize(&xMax, &yMax);  
 
-	for (i = 1;i <= VOOMBOTNUM; i++) {
+	for (i = 1;i <= VOOMBOTNUM; i++) { 
+
 		botlocator(last, xMax,yMax);
-		botparser(last, xMax,yMax);
+		botparser(last, xMax,yMax); 
+		//botbattery(inputs);		//stick more functions here to add functionality
+
 		last -> next = malloc(sizeof(botinfo));
 		last = last -> next;
-	}
+	} // loop for # of voombots
 	trav(init);
 	return 0;
 }
@@ -42,8 +68,12 @@ int main(void) {
 
 
 void roomsize( int * xMax,  int * yMax) {	
+   /* Instead of references directly to the voombot structure, variables like 'x' and 'y' 
+	 below are declared again in these functions. This allows the program to run 
+	 faster and it's easier to read. */
+
 	char input[MAXINPUT]; 
-	 int x,y;
+	int x,y;
 
 	fgets(input, MAXINPUT, stdin); 
 
@@ -107,6 +137,7 @@ current -> x = x;
 current -> y = y;
 current -> DIRECTION = d;
 }
+
 
 void trav(botptr current) {
 	while (current -> next != NULL) {
