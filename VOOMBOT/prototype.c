@@ -1,10 +1,10 @@
-/* Voombot API by Vikrant Sharma. 
+/* Voombot APIs by Vikrant Sharma. 
 
 Dear maintainer,
 This program takes in user input for various vacuumbot-related (i.e. Roomba) parameters (e.g. location, roomsize, etc.)
 and determines if a movement instruction set is valid. It prints the final location of the vacuumbot. Program catches
 errors and ignores extra spaces as well as gibberish input after the intended input on the line (e.g. "1   3 N noise" is read
-as "1 3 N"). New features may be added as standalone functions, such as the inbuilt ones like "roomsize". 
+as "1 3 N"). New APIs may be added as standalone functions, such as the inbuilt ones like "roomsize". 
 
 The output for each bot should be its final co-ordinates and heading. 
 INPUT AND OUTPUT 
